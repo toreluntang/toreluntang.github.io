@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom New Tab Page</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
     <style>
         /* Add some basic styling to the page */
         body {
@@ -11,24 +16,29 @@
             margin: 0;
             padding: 0;
         }
+
         header {
             background-color: #333;
             color: #fff;
             text-align: center;
             padding: 10px;
         }
+
         section {
             padding: 20px;
         }
+
         ul {
             list-style-type: none;
             padding: 0;
         }
+
         li {
             margin-bottom: 10px;
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Hello</h1>
@@ -59,15 +69,22 @@
             taskList.innerHTML = '';
             storedTasks.forEach((task, index) => {
                 const li = document.createElement('li');
-                li.textContent = task;
                 const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
+                removeButton.innerHTML = '<i class="fas fa-trash"></i>'; // Use the trash icon
                 removeButton.addEventListener('click', () => {
                     storedTasks.splice(index, 1);
                     updateLocalStorage();
                     renderTasks();
                 });
                 li.appendChild(removeButton);
+
+                // Create a span for the task text
+                const taskText = document.createElement('span');
+                taskText.textContent = task;
+
+                // Append the task text after the remove button
+                li.appendChild(taskText);
+
                 taskList.appendChild(li);
             });
         }
@@ -86,4 +103,5 @@
         });
     </script>
 </body>
+
 </html>
