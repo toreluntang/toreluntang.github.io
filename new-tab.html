@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom New Tab Page</title>
+    <style>
+        /* Add some basic styling to the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+        section {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hello</h1>
+    </header>
+    <section>
+        <h2>Todo List</h2>
+        <input type="text" id="task" placeholder="Add a new task">
+        <button id="addTask">Add</button>
+        <ul id="taskList">
+            <!-- Tasks will be added here dynamically -->
+        </ul>
+    </section>
+
+    <script>
+        // JavaScript to handle adding and removing tasks and using local storage
+        const taskInput = document.getElementById('task');
+        const addTaskButton = document.getElementById('addTask');
+        const taskList = document.getElementById('taskList');
+
+        // Load tasks from local storage if available
+        const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        function updateLocalStorage() {
+            localStorage.setItem('tasks', JSON.stringify(storedTasks));
+        }
+
+        function renderTasks() {
+            taskList.innerHTML = '';
+            storedTasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.textContent = task;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', () => {
+                    storedTasks.splice(index, 1);
+                    updateLocalStorage();
+                    renderTasks();
+                });
+                li.appendChild(removeButton);
+                taskList.appendChild(li);
+            });
+        }
+
+        // Initial render
+        renderTasks();
+
+        addTaskButton.addEventListener('click', () => {
+            const newTask = taskInput.value.trim();
+            if (newTask) {
+                storedTasks.push(newTask);
+                updateLocalStorage();
+                renderTasks();
+                taskInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
